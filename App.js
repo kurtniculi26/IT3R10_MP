@@ -55,6 +55,7 @@ export default function App() {
     <View style={styles.container}>
       {/* Upper Panel */}
       <View style={styles.upperPanel}>
+        <Text style={styles.Crypt}>Crypt</Text>
         <Text style={styles.upperPannelText}>{upperPanelText}</Text>
       </View>
 
@@ -89,6 +90,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  Crypt: {
+    position: 'absolute',
+    fontSize: 21,
+    bottom: 32,
+    left: 15,
   },
   upperPanel: {
     height: 120,
