@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, FlatList, Modal } from 'react-native';
 
 // Icon imports
 import editIcon from './assets/edit.png';
 import deleteIcon from './assets/delete.png';
 import doneIcon from './assets/done.png';
 
-const PendingTasksPanel = ({ 
-  tasks, 
-  onAddTask, 
-  onEditTask, 
-  onDeleteTask, 
+const PendingTasksPanel = ({
+  tasks,
+  onAddTask,
+  onEditTask,
+  onDeleteTask,
   onDoneTask,
   showIcons = true  // Prop to control the visibility of icons
 }) => {
   const [taskInputVisible, setTaskInputVisible] = useState(false);
   const [newTask, setNewTask] = useState('');
   const [editingTaskId, setEditingTaskId] = useState(null);
+  const [tooltipVisible, setTooltipVisible] = useState(false);  // State to control tooltip visibility
+  const [tooltipText, setTooltipText] = useState('');           // State to control tooltip text
+  const [tooltipPosition, setTooltipPosition] = useState({});   // State to control tooltip position
 
   const handleAddTask = () => {
     if (newTask.trim()) {
@@ -40,13 +43,15 @@ const PendingTasksPanel = ({
     setTaskInputVisible(false);
   };
 
-  const handleDeleteTask = (id) => {
-    onDeleteTask(id);
+  const handleDeleteTask = (id, event) => {
+    onDeleteTask(id);  // Delete the task
+    showTooltip('Removed', event);  // Show "Removed" tooltip after task deletion
   };
 
-  const handleDoneTask = (id) => {
+  const handleDoneTask = (id, event) => {
     const task = tasks.find(t => t.id === id);
     onDoneTask(task);
+    showTooltip('Completed', event);  // Show "Removed" tooltip after task deletion
   };
 
   const handleCancel = () => {
@@ -55,18 +60,36 @@ const PendingTasksPanel = ({
     setTaskInputVisible(false);
   };
 
+  // Function to show tooltip
+  const showTooltip = (text, event) => {
+    const { pageX, pageY } = event.nativeEvent;
+    setTooltipText(text);
+    setTooltipPosition({ top: 550, left: 150 });  // Adjust tooltip position based on icon
+    setTooltipVisible(true);
+    setTimeout(() => {
+      setTooltipVisible(false);
+    }, 2000);  // Tooltip will disappear after 1.5 seconds
+  };
+
   const renderTaskItem = ({ item }) => (
     <View style={styles.taskContainer}>
       <Text style={styles.taskName}>{item.name}</Text>
       {showIcons && (
         <View style={styles.taskActions}>
-          <TouchableOpacity onPress={() => handleEditTask(item.id)}>
+          <TouchableOpacity
+            onPress={() => handleEditTask(item.id)}
+          >
             <Image source={editIcon} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDeleteTask(item.id)}>
+          <TouchableOpacity
+            onPress={(event) => handleDeleteTask(item.id, event)}
+          >
             <Image source={deleteIcon} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDoneTask(item.id)}>
+
+          <TouchableOpacity
+            onPress={(event) => handleDoneTask(item.id, event)}
+          >
             <Image source={doneIcon} style={styles.icon} />
           </TouchableOpacity>
         </View>
@@ -76,12 +99,19 @@ const PendingTasksPanel = ({
 
   return (
     <View style={styles.panel}>
-      <FlatList
-        data={tasks}
-        renderItem={renderTaskItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.taskList}
-      />
+      {tasks.length === 0 ? (
+        <View style={styles.centeredMessage}>
+          <Text style={styles.noTasksMessage}>No task found</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={tasks}
+          renderItem={renderTaskItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.taskList}
+        />
+      )}
+
       {taskInputVisible && (
         <View style={styles.taskInputContainer}>
           <TextInput
@@ -89,13 +119,14 @@ const PendingTasksPanel = ({
             value={newTask}
             onChangeText={setNewTask}
             placeholder="Enter task name"
+            autoFocus={true}  // Automatically open keyboard when visible
           />
           <View style={styles.taskInputActions}>
             <TouchableOpacity onPress={editingTaskId ? handleSaveEdit : handleAddTask} style={styles.submitButton}>
               <Text style={styles.submitButtonText}>{editingTaskId ? 'Save' : 'Add Task'}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
-              <Text style={styles.submitButtonText}>{editingTaskId ? 'Cancel' : 'Cancel'}</Text>
+              <Text style={styles.submitButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -105,6 +136,13 @@ const PendingTasksPanel = ({
           <Image source={require('./assets/addtask.png')} style={styles.addTaskIcon} />
         </TouchableOpacity>
       )}
+
+      {/* Tooltip */}
+      {tooltipVisible && (
+        <View style={[styles.tooltip, tooltipPosition]}>
+          <Text style={styles.tooltipText}>{tooltipText}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -112,7 +150,7 @@ const PendingTasksPanel = ({
 const styles = StyleSheet.create({
   panel: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     padding: 10,
   },
   taskList: {
@@ -123,10 +161,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#F1F5A8',
+    backgroundColor: '#EEEEEE',
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+    borderColor: '#EEEEEE',
+    borderWidth: 1,
     elevation: 3,
   },
   taskName: {
@@ -145,14 +185,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 30,
-    backgroundColor: '#D2D180',
+    backgroundColor: '#EEEEEE',
     borderRadius: 50,
     padding: 10,
     elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2.2,
   },
   addTaskIcon: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
   },
   taskInputContainer: {
     position: 'absolute',
@@ -160,43 +204,64 @@ const styles = StyleSheet.create({
     left: 15,
     right: 15,
     padding: 10,
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    elevation: 5, // For Android shadow
-    shadowColor: '#000', // Shadow color for iOS
-    shadowOffset: { width: 0, height: 4 }, // Shadow offset for iOS
-    shadowOpacity: 0.3, // Shadow opacity for iOS
-    shadowRadius: 6, // Shadow radius for iOS
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
   },
   taskInput: {
     height: 40,
-    borderColor: '#ddd',
+    borderColor: '#EEEEEE',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#FFFFFF'
   },
   taskInputActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   cancelButton: {
-    backgroundColor: '#E5E483',
+    backgroundColor: '#EEEEEE',
     borderRadius: 5,
     padding: 10,
     alignItems: 'center',
   },
   submitButton: {
-    backgroundColor: '#B2B377',
+    backgroundColor: '#EEEEEE',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
   submitButtonText: {
-    color: '#ffffff',
+    color: '#FFC200',
     fontSize: 16,
   },
+  noTasksMessage: {
+    fontSize: 18,
+    color: '#888888',
+    textAlign: 'center',
+  },
+  centeredMessage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tooltip: {
+    position: 'absolute',
+    backgroundColor: '#666666',
+    padding: 5,
+    borderRadius: 5,
+    zIndex: 10,
+  },
+  tooltipText: {
+    color: '#fff',
+    fontSize: 14,
+  }
 });
 
 export default PendingTasksPanel;
