@@ -1,4 +1,5 @@
-import { View, Text } from 'react-native';
+// PageOne.js
+import { View } from 'react-native';
 import React from 'react';
 import Avatar from '../Avatar/Avatar';
 import NameText from '../Typography/NameText';
@@ -9,19 +10,20 @@ import Notifications from '../Panels/NotificationPanel';
 import SignOutButton from '../Buttons/SignOutButton';
 import DarkMode from '../Panels/DarkModePanel';
 
-const PageOne = () => {
-  return (
-    <View style={{padding: 15,backgroundColor: '#FFF'}}>
-      <Avatar/>
-      <NameText/>
-      <ProfileText/>
-      <ManageProfile/>
-      <SettingsText/>
-      <Notifications/>
-      <DarkMode/>
-      <SignOutButton/>
-    </View>
-  )
-}
+const PageOne = ({ toggle, onToggle }) => {
 
-export default PageOne
+  return (
+    <View style={{ padding: 15, backgroundColor: toggle ? '#000' : '#FFF' }}>
+      <Avatar />
+      <NameText  toggle={toggle} onToggle={onToggle}/>
+      <ProfileText toggle={toggle} onToggle={onToggle}/>
+      <ManageProfile />
+      <SettingsText  toggle={toggle} onToggle={onToggle} />
+      <Notifications />
+      <DarkMode toggle={toggle} onToggle={onToggle} />
+      <SignOutButton />
+    </View>
+  );
+};
+
+export default PageOne;

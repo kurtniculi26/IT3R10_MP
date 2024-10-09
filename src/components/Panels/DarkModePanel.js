@@ -1,15 +1,19 @@
-import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, Switch } from 'react-native';
 import React from 'react';
 
-const { width, height } = Dimensions.get('window'); // Get the screen width for responsive sizing
+const { width, height } = Dimensions.get('window');
+const DarkMode = ({ toggle, onToggle }) => {
 
-const DarkMode = () => {
   return (
     <View style={styles.container}>
       <View style={styles.flexContainer}>
-        <Image source={require('../../assets/Images/darkmode.png')} style={styles.icon}/>
+        <Image source={require('../../assets/Images/darkmode.png')} style={styles.icon} />
         <Text style={styles.text}>Dark Mode</Text>
-        <Image source={require('../../assets/Images/go.png')} style={styles.goIcon}/>
+
+        <Switch 
+          value={toggle}
+          onValueChange={onToggle}
+        />
       </View>
     </View>
   );
@@ -26,22 +30,18 @@ const styles = StyleSheet.create({
   flexContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',  // Ensure space between items
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#EEE'
+    backgroundColor: '#EEE',
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
   },
   icon: {
     height: 35,
     width: 35,
   },
-  goIcon: {
-    height: 25,
-    width: 25,
-  }
 });
 
 export default DarkMode;

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import React from 'react';
 
-const { width, height } = Dimensions.get('window'); // Get the screen width for responsive sizing
+const { width, height } = Dimensions.get('window');
 
 const Notifications = () => {
   return (
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   flexContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',  // Ensure space between items
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#EEE'
