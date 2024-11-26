@@ -3,14 +3,14 @@ import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 
-const LoginButton = () => {
+const SignOutButton = () => {
   const router = useRouter()
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => router.replace('dashboard')}> 
-      <Text style={styles.buttonText}>Login</Text>
-      <Ionicons name="log-in-outline" size={22} color="white" />
+      <TouchableOpacity style={styles.button} onPress={() => router.replace('/')}> 
+      <Text style={styles.buttonText}>Sign Out</Text>
+      <Ionicons name="log-out-outline" size={22} color="white" />
       </TouchableOpacity>
     </View>
   );
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
-    paddingBottom: 90,
+    paddingBottom: 70,
     paddingTop: 30
   },
   button: {
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginButton;
+export default SignOutButton;

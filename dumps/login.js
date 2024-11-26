@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
-import LoginText from '../Typography/LoginText';
-import EmailAddressInput from '../Components/Inputs/EmailAddressInput';
-import PasswordInput from '../Components/Inputs/PasswordInput';
-import LoginButton from '../Components/Buttons/LoginButton';
-import NoAccountPrompt from '../Typography/NoAccountPrompt';
-import ForgotPassword from '../Typography/ForgotPassword';
+import LoginText from '../src/Typography/LoginText';
+import EmailAddressInput from '../src/Components/Inputs/EmailAddressInput';
+import PasswordInput from '../src/Components/Inputs/PasswordInput';
+import LoginButton from '../src/Components/Buttons/LoginButton';
+import NoAccountPrompt from '../src/Typography/NoAccountPrompt';
+import ForgotPassword from '../src/Typography/ForgotPassword';
 
 const Login = ({ setCurrentPanel }) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.panel}>

@@ -6,7 +6,7 @@ import CodeInput from '../Components/Inputs/CodeInput';
 import AccountPrompt from '../Typography/AccountPrompt';
 import PasswordRecoveryButton from '../Components/Buttons/PasswordRecoveryButton';
 
-const PasswordRecovery = ({ setCurrentPanel }) => {
+const PasswordRecovery = () => {
   return (
     <View style={styles.container}>
       <View style={styles.panel}>
@@ -14,7 +14,7 @@ const PasswordRecovery = ({ setCurrentPanel }) => {
         <RecoveryEmailAddressInput/>
         <CodeInput/>
         <PasswordRecoveryButton/>
-        <AccountPrompt setCurrentPanel={setCurrentPanel}/>
+        <AccountPrompt/>
       </View>
     </View>
   )

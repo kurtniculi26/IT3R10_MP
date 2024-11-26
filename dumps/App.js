@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Button, Text } from 'react-native';
-import Login from './src/Pages/Login';
-import SignUp from './src/Pages/SignUp';
-import PasswordRecovery from './src/Pages/PasswordRecovery';
-import Navigation from './src/Pages/Navigation';
+import Login from './login';
+import SignUp from '../src/app/signup';
+import PasswordRecovery from '../src/app/passwordrecovery';
+import Navigation from '../src/Pages/Navigation';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import DrawerButton from './src/Components/Buttons/DrawerButton';
-
+import DrawerButton from '../src/Components/Buttons/DrawerButton';
 
 export default function App() {
   const [currentPanel, setCurrentPanel] = useState('Login'); // State for active panel
@@ -25,13 +24,13 @@ export default function App() {
   };
 
   return (
-      <SafeAreaView style={styles.container}>
-          <SafeAreaView style={styles.panel}>
-            <DrawerButton/>
-            {renderPanel()}
-            <Navigation setCurrentPanel={setCurrentPanel}/>
-          </SafeAreaView>
-      </SafeAreaView>
+        <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.panel}>
+              <DrawerButton/>
+              {renderPanel()}
+              <Navigation setCurrentPanel={setCurrentPanel}/>
+            </SafeAreaView>
+        </SafeAreaView>
   );
 }
 

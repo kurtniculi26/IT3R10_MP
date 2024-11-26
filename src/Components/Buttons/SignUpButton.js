@@ -1,15 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useRouter } from 'expo-router';
 
 const SignUpButton = () => {
-  const handleSignup = () => {
-    console.log('SignUp button pressed');
-  };
+  const router = useRouter()
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleSignup}> 
+      <TouchableOpacity style={styles.button} onPress={() => router.back()}> 
       <Text style={styles.buttonText}>Sign Up</Text>
       <Ionicons name="arrow-forward-circle-outline" size={22} color="white" />
       </TouchableOpacity>

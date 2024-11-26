@@ -1,11 +1,15 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { useRouter } from 'expo-router';
 
 const AccountPrompt = ({ setCurrentPanel }) => {
+
+  const router = useRouter()
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Already Have an Account? </Text>
-      <TouchableOpacity style={styles.button} onPress={() => setCurrentPanel('Login')}> 
+      <TouchableOpacity style={styles.button} onPress={() => router.back()}> 
         <Text style={styles.logIn}>Log in</Text>
       </TouchableOpacity>
     </View>

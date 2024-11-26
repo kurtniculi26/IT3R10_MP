@@ -7,7 +7,7 @@ import AccountPrompt from '../Typography/AccountPrompt';
 import ConfirmPasswordInput from '../Components/Inputs/ConfirmPasswordInput';
 import SignUpButton from '../Components/Buttons/SignUpButton';
 
-const SignUp = ({ setCurrentPanel }) => {
+const SignUp = () => {
   return (
     <View style={styles.container}>
       <View style={styles.panel}>
@@ -16,7 +16,7 @@ const SignUp = ({ setCurrentPanel }) => {
         <PasswordInput/>
         <ConfirmPasswordInput/>
         <SignUpButton/>
-        <AccountPrompt setCurrentPanel={setCurrentPanel}/>
+        <AccountPrompt/>
       </View>
     </View>
   )

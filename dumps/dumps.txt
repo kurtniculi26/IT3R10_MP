@@ -1,0 +1,16 @@
+    <SafeAreaProvider style={{flex: 1}}>
+      <SafeAreaView style={styles.container}>
+        <Stack>
+          <Stack.Screen name="login" />
+        </Stack>
+      </SafeAreaView>
+    </SafeAreaProvider>
+
+    const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#DDD'
+  },
+});
